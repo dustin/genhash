@@ -56,6 +56,8 @@ typedef struct _genhash&nbsp;</td><td class="memItemRight" valign="bottom"><a cl
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Iterate all values for a given key in a hash table.  <a href="#ga00b79444694f177b73073425c8436b6d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___core.html#ga1e74e03cb007783681591ea68bdad33c">genhash_size</a> (<a class="el" href="group___core.html#gad85455a52257b319abac8760b4682993">genhash_t</a> *h)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total number of entries in this hash table.  <a href="#ga1e74e03cb007783681591ea68bdad33c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___core.html#ga8e46f8e404584fae6190ab540922842c">genhash_clear</a> (<a class="el" href="group___core.html#gad85455a52257b319abac8760b4682993">genhash_t</a> *h)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all items from a genhash.  <a href="#ga8e46f8e404584fae6190ab540922842c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___core.html#ga0996503f36878a931c20fd1cd6879993">genhash_size_for_key</a> (<a class="el" href="group___core.html#gad85455a52257b319abac8760b4682993">genhash_t</a> *h, const void *k)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total number of entries in this hash table that map to the given key.  <a href="#ga0996503f36878a931c20fd1cd6879993"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___core.html#ga31451de9d347caa866c00c675ea7913b">genhash_string_hash</a> (const void *k)</td></tr>
@@ -88,6 +90,33 @@ typedef struct _genhash&nbsp;</td><td class="memItemRight" valign="bottom"><a cl
 </div>
 </div>
 <hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ga8e46f8e404584fae6190ab540922842c"></a><!-- doxytag: member="genhash.h::genhash_clear" ref="ga8e46f8e404584fae6190ab540922842c" args="(genhash_t *h)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int genhash_clear </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___core.html#gad85455a52257b319abac8760b4682993">genhash_t</a> *&nbsp;</td>
+          <td class="paramname"> <em>h</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Remove all items from a genhash. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>h</em>&nbsp;</td><td>the genhash</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the number of items removed </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga2cfb44d2788bd14c1c07ec44957e4c4a"></a><!-- doxytag: member="genhash.h::genhash_delete" ref="ga2cfb44d2788bd14c1c07ec44957e4c4a" args="(genhash_t *h, const void *k)" -->
 <div class="memitem">
 <div class="memproto">
@@ -664,7 +693,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Mon Aug 31 15:17:42 2009 for genhash by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Mon Aug 31 20:00:27 2009 for genhash by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
