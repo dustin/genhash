@@ -22,11 +22,12 @@ static int
 estimate_table_size(int est)
 {
     int rv=0;
-    int magn=0;
+    size_t magn=0;
     assert(est > 0);
-    magn=(int)log((double)est)/log(2);
-    magn--;
-    magn = (magn < 0) ? 0 : magn;
+    magn=(size_t)log((double)est)/log(2);
+    if (magn > 0) {
+        magn--;
+    }
     assert(magn < (sizeof(prime_size_table) / sizeof(int)));
     rv=prime_size_table[magn];
     return rv;
@@ -69,13 +70,12 @@ genhash_free(genhash_t* h)
 void
 genhash_store(genhash_t *h, const void* k, const void* v)
 {
-    int n=0;
+    size_t n=0;
     struct genhash_entry_t *p;
 
     assert(h != NULL);
 
     n=h->ops.hashfunc(k) % h->size;
-    assert(n >= 0);
     assert(n < h->size);
 
     p=calloc(1, sizeof(struct genhash_entry_t));
@@ -91,12 +91,11 @@ genhash_store(genhash_t *h, const void* k, const void* v)
 static struct genhash_entry_t *
 genhash_find_entry(genhash_t *h, const void* k)
 {
-    int n=0;
+    size_t n=0;
     struct genhash_entry_t *p;
 
     assert(h != NULL);
     n=h->ops.hashfunc(k) % h->size;
-    assert(n >= 0);
     assert(n < h->size);
 
     p=h->buckets[n];
@@ -178,12 +177,11 @@ int
 genhash_delete(genhash_t* h, const void* k)
 {
     struct genhash_entry_t *deleteme=NULL;
-    int n=0;
+    size_t n=0;
     int rv=0;
 
     assert(h != NULL);
     n=h->ops.hashfunc(k) % h->size;
-    assert(n >= 0);
     assert(n < h->size);
 
     if(h->buckets[n] != NULL) {
@@ -223,7 +221,7 @@ void
 genhash_iter(genhash_t* h,
              void (*iterfunc)(const void* key, const void* val, void *arg), void *arg)
 {
-    int i=0;
+    size_t i=0;
     struct genhash_entry_t *p=NULL;
     assert(h != NULL);
 
@@ -237,7 +235,8 @@ genhash_iter(genhash_t* h,
 int
 genhash_clear(genhash_t *h)
 {
-    int i = 0, rv = 0;
+    size_t i = 0;
+    int rv = 0;
     assert(h != NULL);
 
     for(i = 0; i < h->size; i++) {
@@ -253,7 +252,9 @@ genhash_clear(genhash_t *h)
 }
 
 static void
-count_entries(const void *key, const void *val, void *arg)
+count_entries(const void *key __attribute__((unused)),
+              const void *val __attribute__((unused)),
+              void *arg)
 {
     int *count=(int *)arg;
     (*count)++;
@@ -280,12 +281,11 @@ void
 genhash_iter_key(genhash_t* h, const void* key,
                  void (*iterfunc)(const void* key, const void* val, void *arg), void *arg)
 {
-    int n=0;
+    size_t n=0;
     struct genhash_entry_t *p=NULL;
 
     assert(h != NULL);
     n=h->ops.hashfunc(key) % h->size;
-    assert(n >= 0);
     assert(n < h->size);
 
     for(p=h->buckets[n]; p!=NULL; p=p->next) {

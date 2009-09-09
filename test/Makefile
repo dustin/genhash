@@ -1,5 +1,5 @@
 CFLAGS=-Wall -Werror -g -I.. -g
-LDFLAGS=-L.. -g -lgenhash
+LDFLAGS=-L.. -g -lgenhash -lm
 THELIB=../libgenhash.a
 
 PROGS=hashtest

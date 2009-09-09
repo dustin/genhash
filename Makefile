@@ -1,4 +1,4 @@
-CFLAGS=-Wall -Werror -g
+CFLAGS=-Wall -Wextra -Werror -g
 
 OBJS=genhash.o
 
