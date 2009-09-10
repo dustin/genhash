@@ -18,19 +18,17 @@ static int prime_size_table[]={
     1610612741
 };
 
-static int
+#define TABLE_SIZE ((int)(sizeof(prime_size_table) / sizeof(int)))
+
+int
 estimate_table_size(int est)
 {
-    int rv=0;
-    size_t magn=0;
     assert(est > 0);
-    magn=(size_t)log((double)est)/log(2);
-    if (magn > 0) {
-        magn--;
+    int rv=0;
+    while(prime_size_table[rv] < est && rv+1 < TABLE_SIZE) {
+        rv++;
     }
-    assert(magn < (sizeof(prime_size_table) / sizeof(int)));
-    rv=prime_size_table[magn];
-    return rv;
+    return prime_size_table[rv];
 }
 
 genhash_t* genhash_init(int est, struct hash_ops ops)

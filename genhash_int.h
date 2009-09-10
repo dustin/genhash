@@ -15,3 +15,5 @@ struct _genhash {
     struct hash_ops ops;
     struct genhash_entry_t *buckets[];
 };
+
+int estimate_table_size(int est);
