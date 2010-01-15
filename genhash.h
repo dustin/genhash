@@ -35,19 +35,19 @@ struct hash_ops {
     /**
      * Function to compute a hash for the given value.
      */
-    int   (*hashfunc)(const void *);
+    int   (*hashfunc)(const void *, size_t);
     /**
      * Function that returns true if the given keys are equal.
      */
-    int   (*hasheq)(const void *, const void *);
+    int   (*hasheq)(const void *, size_t, const void *, size_t);
     /**
      * Function to duplicate a key for storage.
      */
-    void* (*dupKey)(const void *);
+    void* (*dupKey)(const void *, size_t);
     /**
      * Function to duplicate a value for storage.
      */
-    void* (*dupValue)(const void *);
+    void* (*dupValue)(const void *, size_t);
     /**
      * Function to free a key.
      */
@@ -95,7 +95,8 @@ void genhash_free(genhash_t *h);
  * @param k the key
  * @param v the value
  */
-void genhash_store(genhash_t *h, const void *k, const void *v);
+void genhash_store(genhash_t *h, const void *k, size_t klen,
+                   const void *v, size_t vlen);
 
 /**
  * Get the most recent value stored for the given key.
@@ -105,7 +106,7 @@ void genhash_store(genhash_t *h, const void *k, const void *v);
  *
  * @return the value, or NULL if one cannot be found
  */
-void* genhash_find(genhash_t *h, const void *k);
+void* genhash_find(genhash_t *h, const void *k, size_t klen);
 
 /**
  * Delete the most recent value stored for a key.
@@ -115,7 +116,7 @@ void* genhash_find(genhash_t *h, const void *k);
  *
  * @return the number of items deleted
  */
-int genhash_delete(genhash_t *h, const void *k);
+int genhash_delete(genhash_t *h, const void *k, size_t klen);
 
 /**
  * Delete all mappings of a given key.
@@ -125,7 +126,7 @@ int genhash_delete(genhash_t *h, const void *k);
  *
  * @return the number of items deleted
  */
-int genhash_delete_all(genhash_t *h, const void *k);
+int genhash_delete_all(genhash_t *h, const void *k, size_t klen);
 
 /**
  * Create or update an item in-place.
@@ -137,7 +138,8 @@ int genhash_delete_all(genhash_t *h, const void *k);
  * @return an indicator of whether this created a new item or updated
  *         an existing one
  */
-enum update_type genhash_update(genhash_t *h, const void *k, const void *v);
+enum update_type genhash_update(genhash_t *h, const void *k, size_t klen,
+                                const void *v, size_t vlen);
 
 /**
  * Create or update an item in-place with a function.
@@ -153,10 +155,12 @@ enum update_type genhash_update(genhash_t *h, const void *k, const void *v);
  * @return an indicator of whether this created a new item or updated
  *         an existing one
  */
-enum update_type genhash_fun_update(genhash_t *h, const void *key,
-                                    void *(*upd)(const void *k, const void *oldv),
+enum update_type genhash_fun_update(genhash_t *h, const void *key, size_t klen,
+                                    void *(*upd)(const void *k, const void *oldv,
+                                                 size_t *ns, void *a),
                                     void (*fr)(void*),
-                                    const void *def);
+                                    void *arg,
+                                    const void *def, size_t deflen);
 
 /**
  * Iterate all keys and values in a hash table.
@@ -166,7 +170,9 @@ enum update_type genhash_fun_update(genhash_t *h, const void *key,
  * @param arg an argument to be passed to the iterfunc on each iteration
  */
 void genhash_iter(genhash_t *h,
-                  void (*iterfunc)(const void* key, const void* val, void *arg),
+                  void (*iterfunc)(const void* key, size_t nkey,
+                                   const void* val, size_t nval,
+                                   void *arg),
                   void *arg);
 
 /**
@@ -177,8 +183,10 @@ void genhash_iter(genhash_t *h,
  * @param iterfunc a function that will be called once for every k/v pair
  * @param arg an argument to be passed to the iterfunc on each iteration
  */
-void genhash_iter_key(genhash_t *h, const void* key,
-                      void (*iterfunc)(const void* key, const void* val, void *arg),
+void genhash_iter_key(genhash_t *h, const void* key, size_t nkey,
+                      void (*iterfunc)(const void* key, size_t inkey,
+                                       const void* val, size_t inval,
+                                       void *arg),
                       void *arg);
 
 /**
@@ -208,7 +216,7 @@ int genhash_clear(genhash_t *h);
  *
  * @return the number of entries keyed with the given key
  */
-int genhash_size_for_key(genhash_t *h, const void *k);
+int genhash_size_for_key(genhash_t *h, const void *k, size_t nkey);
 
 /**
  * Convenient hash function for strings.
@@ -217,7 +225,7 @@ int genhash_size_for_key(genhash_t *h, const void *k);
  *
  * @return a hash value for this string.
  */
-int genhash_string_hash(const void *k);
+int genhash_string_hash(const void *k, size_t nkey);
 
 /**
  * @}
